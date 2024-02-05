@@ -19,7 +19,7 @@
     "@vercel/blob": "^0.20.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-    "data-fns": "^1.1.0",
+    "date-fns": "^3.3.1",
     "lucide-react": "^0.321.0",
     "markdown-draft-js": "^2.4.0",
     "nanoid": "^5.0.5",
