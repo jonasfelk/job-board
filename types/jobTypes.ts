@@ -1,6 +1,6 @@
 import { JobFilterSchema } from "@/lib/validation";
 
-export type PageProps = {
+export type HomeProps = {
   searchParams: {
     q?: string;
     type?: string;
