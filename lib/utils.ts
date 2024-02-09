@@ -16,3 +16,10 @@ export const formatMoney = (amount: number) => {
 export const relativeDate = (from: Date) => {
   return formatDistanceToNowStrict(from, { addSuffix: true });
 };
+
+export const toSlug = (str: string) => {
+  return str
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+};

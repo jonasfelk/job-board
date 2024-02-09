@@ -27,25 +27,31 @@ const applicationSchema = z
 
 const locationSchema = z
   .object({
-    locationType: requiredString.refine((value) => {
-      locationTypes.includes(value), "Required";
-    }),
+    locationType: requiredString.refine(
+      (value) => locationTypes.includes(value),
+      "Required",
+    ),
     location: z.string().max(100).optional(),
   })
-  .refine((data) => !data.locationType || data.locationType || data.location, {
-    message: "Location is required for on-site jobs",
-    path: ["location"],
-  });
+  .refine(
+    (data) =>
+      !data.locationType || data.locationType === "Remote" || data.location,
+    {
+      message: "Location is required for on-site jobs",
+      path: ["location"],
+    },
+  );
 
 export const createJobSchema = z
   .object({
     title: requiredString.max(100),
-    type: requiredString.refine((value) => {
-      jobTypes.includes(value), "Required";
-    }),
+    type: requiredString.refine(
+      (value) => jobTypes.includes(value),
+      "Required",
+    ),
     companyName: requiredString.max(100),
     companyLogo: companyLogoSchema,
-    location: requiredString,
+    // location: requiredString,
     description: z.string().max(5000).optional(),
     salary: numericRequiredString.max(
       9,

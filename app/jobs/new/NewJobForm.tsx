@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/constant/jobConstant";
 import { CreateJobSchema, createJobSchema } from "@/lib/validation";
+import { createJobPosting } from "@/server/actions/job";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { draftToMarkdown } from "markdown-draft-js";
@@ -28,7 +29,19 @@ export default function NewJobForm() {
   });
 
   const onSubmit = async (values: CreateJobSchema) => {
-    alert(JSON.stringify(values, null, 2));
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, value);
+      }
+    });
+
+    try {
+      await createJobPosting(formData);
+    } catch (error) {
+      alert("Failed to create job");
+    }
   };
 
   return (
@@ -130,7 +143,16 @@ export default function NewJobForm() {
                 <FormItem>
                   <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <Select {...field} defaultValue="">
+                    <Select
+                      {...field}
+                      defaultValue=""
+                      onChange={(e) => {
+                        field.onChange(e);
+                        if (e.currentTarget.value === "Remote") {
+                          form.trigger("location");
+                        }
+                      }}
+                    >
                       <option value={""} hidden>
                         Select an option
                       </option>
