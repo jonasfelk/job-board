@@ -76,8 +76,8 @@ export default async function JobFilterSidebar({
           </div>
           <div className="flex items-center gap-2">
             <input
-              id="remove"
-              name="remove"
+              id="remote"
+              name="remote"
               type="checkbox"
               className="scale-125 accent-black"
               defaultChecked={defaultValues?.remote}

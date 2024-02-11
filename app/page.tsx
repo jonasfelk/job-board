@@ -5,7 +5,7 @@ import { JobFilterSchema } from "@/lib/validation";
 import { HomeProps } from "@/types/jobTypes";
 import { Metadata } from "next";
 
-export const getTitle = ({ q, type, location, remote }: JobFilterSchema) => {
+function getTitle({ q, type, location, remote }: JobFilterSchema) {
   const titlePrefix = q
     ? `${q} jobs `
     : type
@@ -17,15 +17,15 @@ export const getTitle = ({ q, type, location, remote }: JobFilterSchema) => {
   const titleSuffix = location ? `in ${location}` : "";
 
   return `${titlePrefix}${titleSuffix}`;
-};
+}
 
-export const generateMetadata = ({
+export function generateMetadata({
   searchParams: { q, type, location, remote },
-}: HomeProps): Metadata => {
+}: HomeProps): Metadata {
   return {
     title: `${getTitle({ q, type, location, remote: remote === "true" })} | Flow Jobs`,
   };
-};
+}
 export default async function Home({
   searchParams: { q, type, location, remote },
 }: HomeProps) {

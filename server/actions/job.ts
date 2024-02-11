@@ -121,7 +121,6 @@ export const createJobPosting = async (formData: FormData) => {
       applicationUrl: applicationUrl?.trim(),
       description: description?.trim(),
       salary: parseInt(salary, 10),
-      approved: true,
     },
   });
 

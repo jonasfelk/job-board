@@ -30,7 +30,7 @@ export default function NewJobForm() {
 
   const onSubmit = async (values: CreateJobSchema) => {
     const formData = new FormData();
-
+    
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
         formData.append(key, value);
