@@ -1,27 +1,14 @@
 import JobSingle from "@/components/JobSingle";
 import { Button } from "@/components/ui/button";
+import { getSingleJob } from "@/server/actions/job.action";
 import prisma from "@/server/db/prisma";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { cache } from "react";
 interface PageProps {
   params: {
     slug: string;
   };
 }
-
-const getSingleJob = cache(async (slug: string) => {
-  const job = await prisma.job.findUnique({
-    where: {
-      slug,
-    },
-  });
-
-  if (!job) notFound();
-
-  return job;
-});
-
 export async function generateStaticParams() {
   const jobs = await prisma.job.findMany({
     where: {

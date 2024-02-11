@@ -2,9 +2,16 @@ import JobFilterSidebar from "@/components/JobFilterSidebar";
 import JobResults from "@/components/JobResults";
 import H1 from "@/components/h1";
 import { JobFilterSchema } from "@/lib/validation";
-import { HomeProps } from "@/types/jobTypes";
 import { Metadata } from "next";
-
+export type HomeProps = {
+  searchParams: {
+    q?: string;
+    type?: string;
+    location?: string;
+    remote?: string;
+    page?: string;
+  };
+};
 function getTitle({ q, type, location, remote }: JobFilterSchema) {
   const titlePrefix = q
     ? `${q} jobs `
@@ -27,7 +34,7 @@ export function generateMetadata({
   };
 }
 export default async function Home({
-  searchParams: { q, type, location, remote },
+  searchParams: { q, type, location, remote, page },
 }: HomeProps) {
   const filterValues: JobFilterSchema = {
     q,
@@ -43,7 +50,10 @@ export default async function Home({
       </div>
       <section className="flex flex-col gap-4 md:flex-row">
         <JobFilterSidebar defaultValues={filterValues} />
-        <JobResults filterValues={filterValues} />
+        <JobResults
+          filterValues={filterValues}
+          page={page ? parseInt(page) : undefined}
+        />
       </section>
     </main>
   );

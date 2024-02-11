@@ -1,18 +1,19 @@
 "use server";
 
+import { JobResultsProps } from "@/components/JobResults";
 import { toSlug } from "@/lib/utils";
 import { createJobSchema } from "@/lib/validation";
 import prisma from "@/server/db/prisma";
-import { JobResultsProps } from "@/types/jobTypes";
+
 import { Job, Prisma } from "@prisma/client";
 import { put } from "@vercel/blob";
 import { nanoid } from "nanoid";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import path from "path";
+import { cache } from "react";
 
-export const getJob = async ({
-  filterValues: { q, type, location, remote },
-}: JobResultsProps) => {
+export const getJob = async ({ filterValues, skip, take }: JobResultsProps) => {
+  const { q, type, location, remote } = filterValues;
   const searchString = q
     ?.split(" ")
     .filter((word) => word.length > 0)
@@ -46,6 +47,8 @@ export const getJob = async ({
       orderBy: {
         createdAt: "desc",
       },
+      skip,
+      take,
     });
     return jobs;
   } catch (error) {
@@ -126,3 +129,15 @@ export const createJobPosting = async (formData: FormData) => {
 
   redirect("/job-submitted");
 };
+
+export const getSingleJob = cache(async (slug: string) => {
+  const job = await prisma.job.findUnique({
+    where: {
+      slug,
+    },
+  });
+
+  if (!job) notFound();
+
+  return job;
+});

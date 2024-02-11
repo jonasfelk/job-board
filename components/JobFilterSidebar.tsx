@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { jobTypes } from "@/constant/jobConstant";
 import { jobFilterSchema } from "@/lib/validation";
-import { getDistinctLocations } from "@/server/actions/job";
+import { getDistinctLocations } from "@/server/actions/job.action";
 import { JobFilterSidebarProps } from "@/types/jobTypes";
 import { redirect } from "next/navigation";
 

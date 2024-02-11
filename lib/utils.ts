@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge";
+import { UserResource } from "@clerk/types";
+import { User } from "@clerk/nextjs/server";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -22,4 +24,8 @@ export const toSlug = (str: string) => {
     .toLowerCase()
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
+};
+
+export const isAdmin = (user: User | UserResource) => {
+  return user.publicMetadata.role === "admin";
 };
